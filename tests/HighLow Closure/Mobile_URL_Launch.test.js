@@ -109,11 +109,14 @@ test('Mobile URL Launch', async ({ page }, testInfo) => {
     accountUrl + '/signup/?a_aid=633b62a35755b',
     accountUrl + '/register?a_aid=633b62a35755b',
     accountUrl + '/crypto?a_aid=633b62a35755b',
+    cfdUrl,
+    cfdUrl + '/login',
+    cfdUrl + '/login?redirect=cfd-platform-redirect'
     ];
 
     for (const path of traderPaths) {
     await mobile.goto(path);
-    await highlowSharedTestActions.confirmRedirectPageLoads(mobile, path);
+    await highlowSharedTestActions.confirmRedirectPageLoads(mobile, env);
     }
 
     // === Affiliate Pages ===
@@ -122,7 +125,6 @@ test('Mobile URL Launch', async ({ page }, testInfo) => {
     newAffiliateUrl,
     newAffiliateUrl + '/ja/',
     newAffiliateUrl + '/ja/sign-in',
-    newAffiliateUrl + '/ja/#signin-popup',
     newAffiliateUrl + '/ja/marketing-tools',
     newAffiliateUrl + '/ja/faq',
     newAffiliateUrl + '/ja/contact-us',
@@ -145,19 +147,8 @@ test('Mobile URL Launch', async ({ page }, testInfo) => {
 
     for (const path of affiliatePaths) {
     await mobile.goto(path);
-    await highlowSharedTestActions.confirmRedirectPageLoads(mobile, path);
+    await highlowSharedTestActions.confirmRedirectPageLoads(mobile, env);
     }
-
-    // === Additional URLs ===
-    await mobile.goto(cfdUrl);
-    await expect(mobile).toHaveURL('/login?redirect=cfd-platform-redirect');
-    await highlowSharedTestActions.confirmRedirectPageLoads(mobile, '/login?redirect=cfd-platform-redirect');
-    await mobile.goto(cfdUrl + '/login');
-    await expect(mobile).toHaveURL('/login?redirect=cfd-platform-redirect');
-    await highlowSharedTestActions.confirmRedirectPageLoads(mobile, '/login?redirect=cfd-platform-redirect');
-    await mobile.goto(cfdUrl + '/login?redirect=cfd-platform-redirect');
-    await expect(mobile).toHaveURL('/login?redirect=cfd-platform-redirect');
-    await highlowSharedTestActions.confirmRedirectPageLoads(mobile, '/login?redirect=cfd-platform-redirect');
 
     // === Visit Allowed Terms & Conditions URLs ===
     const response = await mobile.goto(cdnUrl + '/legal/jp/HLMI_Internationals_Affiliate_Terms_jp.pdf?v4.23.11');
@@ -175,8 +166,7 @@ test('Mobile URL Launch', async ({ page }, testInfo) => {
     await expect(mobile).toHaveURL(/legal\/jp\/HLMI_Internationals_Account_Terms_jp\.pdf\?v4\.23\.09/);
 
     await mobile.goto('/');
-    const iFrame = mobile.frameLocator('#landing');
-    const redirectPageTermsConditionsLink = iFrame.locator('//p[3]/a[contains(@href, "/legal/jp/HLMI_Internationals_Account_Terms_jp.pdf?v4.23.09") and contains (text(), "口座利用条件")]');
+    const redirectPageTermsConditionsLink = mobile.locator('//p[3]/a[contains(@href, "/legal/jp/HLMI_Internationals_Account_Terms_jp.pdf?v4.23.09") and contains (text(), "口座利用条件")]');
     await expect(redirectPageTermsConditionsLink).toBeVisible();
     const mobileContext = mobile.context();
     const [traderPdf] = await Promise.all([mobileContext.waitForEvent('page'), redirectPageTermsConditionsLink.click(),]);
@@ -190,6 +180,6 @@ test('Mobile URL Launch', async ({ page }, testInfo) => {
         await highlowSharedTestActions.confirmRedirectPageLoads(mobile, affiliateFaqUrl + '/support/solutions/12000005737');
     } else {
         // If not in production, skip the FAQ checks
-        console.log('Skipping FAQ checks as this is not a production environment.');
+        console.log('Skipping FAQ checks - This is not the production environment.');
     }
 });

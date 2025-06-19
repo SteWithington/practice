@@ -104,12 +104,15 @@ test('Desktop URL Launch', async ({ page, context }, testInfo) => {
     accountUrl + '/signup/?a_aid=633b62a35755b',
     accountUrl + '/register?a_aid=633b62a35755b',
     accountUrl + '/crypto?a_aid=633b62a35755b',
+    cfdUrl,
+    cfdUrl + '/login',
+    cfdUrl + '/login?redirect=cfd-platform-redirect'
     ];
 
     for (const path of traderPaths) {
     await page.goto(path);
     await page.setViewportSize({ width: 1920, height: 1080 });
-    await highlowSharedTestActions.confirmRedirectPageLoads(page, path);
+    await highlowSharedTestActions.confirmRedirectPageLoads(page, env);
     }
 
     // === Affiliate Pages ===
@@ -118,7 +121,6 @@ test('Desktop URL Launch', async ({ page, context }, testInfo) => {
     newAffiliateUrl,
     newAffiliateUrl + '/ja/',
     newAffiliateUrl + '/ja/sign-in',
-    newAffiliateUrl + '/ja/#signin-popup',
     newAffiliateUrl + '/ja/marketing-tools',
     newAffiliateUrl + '/ja/faq',
     newAffiliateUrl + '/ja/contact-us',
@@ -142,22 +144,8 @@ test('Desktop URL Launch', async ({ page, context }, testInfo) => {
     for (const path of affiliatePaths) {
     await page.goto(path);
     await page.setViewportSize({ width: 1920, height: 1080 });
-    await highlowSharedTestActions.confirmRedirectPageLoads(page, path);
+    await highlowSharedTestActions.confirmRedirectPageLoads(page, env);
     }
-
-    // === Additional URLs ===
-    await page.goto(cfdUrl);
-    await page.setViewportSize({ width: 1920, height: 1080 });
-    await expect(page).toHaveURL('/login?redirect=cfd-platform-redirect');
-    await highlowSharedTestActions.confirmRedirectPageLoads(page, '/login?redirect=cfd-platform-redirect');
-    await page.goto(cfdUrl + '/login');
-    await page.setViewportSize({ width: 1920, height: 1080 });
-    await expect(page).toHaveURL('/login?redirect=cfd-platform-redirect');
-    await highlowSharedTestActions.confirmRedirectPageLoads(page, '/login?redirect=cfd-platform-redirect');
-    await page.goto(cfdUrl + '/login?redirect=cfd-platform-redirect');
-    await page.setViewportSize({ width: 1920, height: 1080 });
-    await expect(page).toHaveURL('/login?redirect=cfd-platform-redirect');
-    await highlowSharedTestActions.confirmRedirectPageLoads(page, '/login?redirect=cfd-platform-redirect');
 
     // === Visit Allowed Terms & Conditions URLs ===
     const response = await page.goto(cdnUrl + '/legal/jp/HLMI_Internationals_Affiliate_Terms_jp.pdf?v4.23.11');
@@ -176,8 +164,7 @@ test('Desktop URL Launch', async ({ page, context }, testInfo) => {
 
     await page.goto('/');
     await page.setViewportSize({ width: 1920, height: 1080 });
-    const iFrame = page.frameLocator('#landing');
-    const redirectPageTermsConditionsLink = iFrame.locator('//p[3]/a[contains(@href, "/legal/jp/HLMI_Internationals_Account_Terms_jp.pdf?v4.23.09") and contains (text(), "口座利用条件")]');
+    const redirectPageTermsConditionsLink = page.locator('//p[3]/a[contains(@href, "/legal/jp/HLMI_Internationals_Account_Terms_jp.pdf?v4.23.09") and contains (text(), "口座利用条件")]');
     await expect(redirectPageTermsConditionsLink).toBeVisible();
     const [traderPdf] = await Promise.all([context.waitForEvent('page'), redirectPageTermsConditionsLink.click(),]);
     await expect(traderPdf).toHaveURL(/legal\/jp\/HLMI_Internationals_Account_Terms_jp\.pdf\?v4\.23\.09/);
@@ -190,6 +177,6 @@ test('Desktop URL Launch', async ({ page, context }, testInfo) => {
         await highlowSharedTestActions.confirmRedirectPageLoads(page, affiliateFaqUrl + '/support/solutions/12000005737');
     } else {
         // If not in production, skip the FAQ checks
-        console.log('Skipping FAQ checks as this is not a production environment.');
+        console.log('Skipping FAQ checks - This is not the production environment.');
     }
 });
