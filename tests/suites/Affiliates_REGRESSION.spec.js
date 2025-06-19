@@ -1,0 +1,4 @@
+import '../HighLow/Affiliates/Public Website/BEYON-5511_Affiliates_Public_Website_To_Verify_Users_Can_Access_All_The_Public_Pages_While_Logged_In_And_Logged_Out_Desktop.test.js';
+import '../HighLow/Affiliates/Affiliate Admin/Login/BEYON-10357_Affiliates_Affiliate_Admin_Login_To_Verify_Admin_Users_are_Able_To_Access_The_Affiliate_Admin_Portal.test.js';
+import '../HighLow/Affiliates/Public Website/BEYON-54791_Affiliates_Public_Website_To_Verify_Users_Can_Access_All_The_Public_Pages_While_Logged_In_And_Logged_Out_Mobile.test.js';
+// 3 Test Case(s)
