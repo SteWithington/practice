@@ -16,13 +16,13 @@ test('CRM URL Launch', async ({ page, context }) => {
     const affiliateID = await highlowSharedTestActions.getTestAffiliateID(env);
     console.log("Affiliate Account In Use = " + affiliateID);
     
-    // Launch HighLow CRM
+    //Launch HighLow CRM
     const crmTab = await highlowSharedTestActions.launchHighLowCRM(page);
 
     //Log into HighLow CRM As An Admin User
     await highlowSharedTestActions.loginHighLowCRMAdmin(crmTab);
 
-    // Check Page Title Message is Displayed
+    //Check Page Title Message is Displayed
     const crmHomeScreenDefaultScreenName = crmTab.locator('//h2[contains(@class, "page-title") and contains(text(), "Transaction Dashboard")]');
     await expect(crmHomeScreenDefaultScreenName).toHaveText("Transaction Dashboard");
     await expect(crmTab).toHaveURL(/crm/);
@@ -34,6 +34,8 @@ test('CRM URL Launch', async ({ page, context }) => {
 
     //Access Trader's Snapshot
     await highlowSharedTestActions.viewCRMSnapshotForTrader(crmTab);
+    const crmTraderUsername = crmTab.locator('//th[contains(text(), "Username")]/following::td[1]');
+    await expect(crmTraderUsername).toHaveText(traderUsername);
 
     //Expand The Finance Menu
     const crmFinanceLeftNavLink = crmTab.locator('//a/span[text()="Finance"]');
