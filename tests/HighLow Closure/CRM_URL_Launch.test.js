@@ -53,6 +53,8 @@ test('CRM URL Launch', async ({ page, context }) => {
     //Confirm The Screen Has Loaded
     const crmDepositScreenTitle = crmTab.locator('//h2[contains(text(), "Deposit list")]');
     await expect(crmDepositScreenTitle).toBeVisible();
+    await expect(crmTab).toHaveURL(/deposit/);
+    await expect(crmTab).toHaveTitle(/Deposit list - HighLow Binary Options/);
 
     //Expand The Withdrawal Menu
     const crmFinanceWithdrawalLeftNavLink = crmTab.locator('//a/span[text()="Withdrawal "]');
@@ -67,6 +69,8 @@ test('CRM URL Launch', async ({ page, context }) => {
     //Confirm The Screen Has Loaded
     const crmWithdrawalsScreenTitle = crmTab.locator('//h2[contains(text(), "Withdrawal list")]');
     await expect(crmWithdrawalsScreenTitle).toBeVisible();
+    await expect(crmTab).toHaveURL(/withdrawal/);
+    await expect(crmTab).toHaveTitle(/Withdrawal list - HighLow Binary Options/);
 
     //Click HL Back Office Link
     const crmHLBackOfficeLink = crmTab.locator('//a[contains(text(), "HL Back Office")]');
@@ -80,6 +84,9 @@ test('CRM URL Launch', async ({ page, context }) => {
     //Check The HL Back Office Screen Is Loaded
     const crmHLBackOfficeMainScreenTitle = hlBackOfficeTab.locator('//p[contains(text(), "Welcome to Back Office")]');
     await expect(crmHLBackOfficeMainScreenTitle).toBeVisible();
+    await expect(hlBackOfficeTab).toHaveURL(/hlbo/);
+    await expect(hlBackOfficeTab).toHaveURL(/home/);
+    await expect(hlBackOfficeTab).toHaveTitle(/HLBO App/);
 
     //Close The HL Back Office Tab
     await hlBackOfficeTab.close();
@@ -97,12 +104,19 @@ test('CRM URL Launch', async ({ page, context }) => {
     //Check The Affiliate Admin Screen Is Loaded
     const crmAffiliateAdminScreenTitle = AffiliateAdminTab.locator('//span[contains(text(), "Affiliate Dashboard")]');
     await expect(crmAffiliateAdminScreenTitle).toBeVisible();
+    await expect(AffiliateAdminTab).toHaveURL(/affbo/);
+    await expect(AffiliateAdminTab).toHaveTitle(/Dashboard - Affiliate Admin/);
     
     //Launch OM2Admin In New Window
     const om2Tab = await highlowSharedTestActions.launchOM2Admin(page);
 
     //Log into OM2Admin As An Admin User
     await highlowSharedTestActions.loginOM2Admin(om2Tab);
+    await expect(om2Tab).toHaveURL(/admin/);
+    await expect(om2Tab).toHaveURL(/Home.aspx/);
+    await expect(om2Tab).toHaveTitle(/MarketsPulse/);
+    const om2AdminExecutiveDashboardSection = om2Tab.locator('//*[@id="ctl00_ContentBody_pnlGraphs"]');
+    await expect(om2AdminExecutiveDashboardSection).toBeVisible();
 
     //Select OM2 Admin Portal Operator
     await highlowSharedTestActions.selectOM2AdminPortalOperator(om2Tab, env);
