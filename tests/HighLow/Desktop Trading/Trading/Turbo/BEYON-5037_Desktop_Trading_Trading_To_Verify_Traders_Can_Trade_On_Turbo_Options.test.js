@@ -8,7 +8,7 @@ test('BEYON-5037 - Desktop Trading - To Verify Traders Can Trade On Turbo Option
     await highlowSharedTestActions.launchDesktopHighLowPublicWebsite(page);
     
     //Get Trader Username For Future Use
-    const env = await page.url();
+    const env = testInfo.project.use.baseURL;
     const traderUsername = await highlowSharedTestActions.getTestTraderID(env);
     console.log("Trader Account In Use = " + traderUsername);
 

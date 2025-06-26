@@ -8,7 +8,7 @@ test('BEYON-16777 - Desktop Trading - Navigation - Ensure That The Account Menu 
     await highlowSharedTestActions.launchDesktopHighLowPublicWebsite(page);
     
     //Get Trader Username For Future Use
-    const env = await page.url();
+    const env = testInfo.project.use.baseURL;
     const traderUsername = await highlowSharedTestActions.getTestTraderID(env);
     console.log("Trader Account In Use = " + traderUsername);
 

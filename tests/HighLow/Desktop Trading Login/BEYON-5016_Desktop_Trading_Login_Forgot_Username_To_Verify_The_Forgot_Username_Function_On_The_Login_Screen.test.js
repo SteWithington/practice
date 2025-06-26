@@ -8,7 +8,7 @@ test('BEYON-5016 - Desktop Trading Login - Forgot Username - To Verify The Forgo
     await highlowSharedTestActions.launchDesktopHighLowPublicWebsite(page);
     
     //Get Trader Username For Future Use
-    const env = await page.url();
+    const env = testInfo.project.use.baseURL;
     const traderUsername = await highlowSharedTestActions.getTestTraderID(env);
     console.log("Trader Account In Use = " + traderUsername);
 

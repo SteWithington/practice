@@ -191,13 +191,12 @@ export async function launchMobileHighLowPublicWebsite() {
     return mobile;
 }
 //--------------------------------------------------------------------------------------------------------------------------
-export async function launchHighLowCRM(page) {
-    const context = page.context();
+export async function launchHighLowCRM(context, env) {
+    // const context = page.context();
     const crmTab = await context.newPage();
 
     await crmTab.setViewportSize({ width: 1920, height: 1080 });
 
-    const env = await page.url(); // We use the original page to detect the current env
     if (env.match(/stage.*/)) {
         await crmTab.goto('https://crmstage.highlowmi.dev/login'); // STAGE Url
     } else if (env.match(/test1.*/)) {
@@ -226,13 +225,11 @@ export async function launchMobileTradingLoginScreen(page) {
     await expect(mobileTradingLoginScreen).toBeVisible();
 }
 //--------------------------------------------------------------------------------------------------------------------------
-export async function launchOM2Admin(page) {
-    const context = page.context();
+export async function launchOM2Admin(context, env) {
     const om2Tab = await context.newPage();
 
     await om2Tab.setViewportSize({ width: 1920, height: 1080 });
 
-    const env = await page.url(); // We use the original page to detect the current env
         if (env.match(/stage.*/)) {
             await om2Tab.goto("https://adminstage.highlowmi.dev/Home.aspx"); //STAGE Url
         } else if (env.match(/test1.*/)) {
@@ -264,7 +261,7 @@ export async function launchDesktopAffiliatePublicWebsite(page) {
 
     await affiliateTab.setViewportSize({ width: 1920, height: 1080 });
 
-    const env = await page.url();
+    const env = testInfo.project.use.baseURL;
         if (env.match(/stage.*/)) {
             await affiliateTab.goto("https://affiliatesstage.highlowmi.dev/ja/"); //STAGE Url
         } else if (env.match(/test1.*/)) {
@@ -282,7 +279,7 @@ export async function launchMobileAffiliatePublicWebsite(page) {
     const context = await browser.newContext({ ...devices['iPhone X'] });
     const mobile = await context.newPage();
 
-    const env = await page.url();
+    const env = testInfo.project.use.baseURL;
         if (env.match(/stage.*/)) {
             await mobile.goto("https://affiliatesstage.highlowmi.dev/ja/"); //STAGE Url
         } else if (env.match(/test1.*/)) {
@@ -342,8 +339,7 @@ export async function loginMobileAffiliate(mobile, affiliateID) {
 //--------------------------------------------------------------------------------------------------------------------------
 //COMMON USER ACTIONS
 //--------------------------------------------------------------------------------------------------------------------------
-export async function loginHighLowCRMAdmin(crmTab) {
-    const env = await crmTab.url();
+export async function loginHighLowCRMAdmin(crmTab, env) {
     if (env.match(/stage.*/)) {
         const crmUsername = crmTab.locator('//*[@name="_username"]');
         await crmUsername.fill("automatedtest");

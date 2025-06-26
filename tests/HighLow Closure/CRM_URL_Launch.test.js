@@ -2,13 +2,10 @@ import { test, expect } from '@playwright/test';
 
 import * as highlowSharedTestActions from '../sharedTestActions/highlowSharedTestActions.js';
 
-test('CRM URL Launch', async ({ page, context }) => {
+test('CRM URL Launch', async ({ context }, testInfo) => {
         
-    //Launch The HighLow Public Website
-    await page.goto('/');
-
     //Get Trader Username For Future Use
-    const env = await page.url();
+    const env = testInfo.project.use.baseURL;
     const traderUsername = await highlowSharedTestActions.getTestTraderID(env);
     console.log("Trader Account In Use = " + traderUsername);
 
@@ -17,10 +14,10 @@ test('CRM URL Launch', async ({ page, context }) => {
     console.log("Affiliate Account In Use = " + affiliateID);
     
     //Launch HighLow CRM
-    const crmTab = await highlowSharedTestActions.launchHighLowCRM(page);
+    const crmTab = await highlowSharedTestActions.launchHighLowCRM(context, env);
 
     //Log into HighLow CRM As An Admin User
-    await highlowSharedTestActions.loginHighLowCRMAdmin(crmTab);
+    await highlowSharedTestActions.loginHighLowCRMAdmin(crmTab, env);
 
     //Check Page Title Message is Displayed
     const crmHomeScreenDefaultScreenName = crmTab.locator('//h2[contains(@class, "page-title") and contains(text(), "Transaction Dashboard")]');
@@ -108,7 +105,7 @@ test('CRM URL Launch', async ({ page, context }) => {
     await expect(AffiliateAdminTab).toHaveTitle(/Dashboard - Affiliate Admin/);
     
     //Launch OM2Admin In New Window
-    const om2Tab = await highlowSharedTestActions.launchOM2Admin(page);
+    const om2Tab = await highlowSharedTestActions.launchOM2Admin(context, env);
 
     //Log into OM2Admin As An Admin User
     await highlowSharedTestActions.loginOM2Admin(om2Tab);

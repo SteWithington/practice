@@ -8,7 +8,7 @@ test('BEYON-31135 - Mobile Trading - App Menu - To Ensure That The App Menu Has 
     await highlowSharedTestActions.launchDesktopHighLowPublicWebsite(page);
 
     //Get Trader Username For Future Use
-    const env = await page.url();
+    const env = testInfo.project.use.baseURL;
     const traderUsername = await highlowSharedTestActions.getTestTraderID(env);
 
     //Launch The HighLow Public Website 

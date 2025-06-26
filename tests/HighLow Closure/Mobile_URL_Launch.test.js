@@ -1,8 +1,8 @@
-import { test, expect } from '@playwright/test';
+import { test, expect, devices, chromium } from '@playwright/test';
 
-import * as highlowSharedTestActions from '../sharedTestActions/highlowSharedTestActions.js';
+import { confirmRedirectPageLoads } from '../test_objects/confirm.redirect.page.loads.js';
 
-test('Mobile URL Launch', async ({ page }, testInfo) => {
+test('Mobile URL Launch', async ({}, testInfo) => {
 
     // Get the baseURL
     const env = testInfo.project.use.baseURL;
@@ -29,10 +29,14 @@ test('Mobile URL Launch', async ({ page }, testInfo) => {
     const traderFaqUrl = 'https://help.highlow.com';
     const affiliateFaqUrl = 'https://affiliate-help.highlow.com';
 
-    // Launch new mobile instance
-    const mobile = await highlowSharedTestActions.launchMobileHighLowPublicWebsite(page);
-    await page.close();
-    await mobile.bringToFront();
+    //Launch new mobile instance
+    const browser = await chromium.launch();
+    const context = await browser.newContext({ ...devices['iPhone 14'] });
+    const mobile = await context.newPage();
+    await mobile.goto('/');
+    await mobile.setViewportSize({ width: 450, height: 1070});
+    // await page.close();
+    // await mobile.bringToFront();
 
     // === Trader Pages ===
     const traderPaths = [
@@ -116,7 +120,7 @@ test('Mobile URL Launch', async ({ page }, testInfo) => {
 
     for (const path of traderPaths) {
     await mobile.goto(path);
-    await highlowSharedTestActions.confirmRedirectPageLoads(mobile, env);
+    await confirmRedirectPageLoads(mobile, env);
     }
 
     // === Affiliate Pages ===
@@ -147,7 +151,7 @@ test('Mobile URL Launch', async ({ page }, testInfo) => {
 
     for (const path of affiliatePaths) {
     await mobile.goto(path);
-    await highlowSharedTestActions.confirmRedirectPageLoads(mobile, env);
+    await confirmRedirectPageLoads(mobile, env);
     }
 
     // === Visit Allowed Terms & Conditions URLs ===
@@ -175,9 +179,9 @@ test('Mobile URL Launch', async ({ page }, testInfo) => {
     //Check FAQs If Env Is Prod
     if (env.match(/highlow.com.*/)) {
         await mobile.goto(traderFaqUrl + '/support/solutions/articles/12000104263-highlow');
-        await highlowSharedTestActions.confirmRedirectPageLoads(mobile, traderFaqUrl + '/support/solutions/articles/12000104263-highlow');
+        await confirmRedirectPageLoads(mobile, traderFaqUrl + '/support/solutions/articles/12000104263-highlow');
         await mobile.goto(affiliateFaqUrl + '/support/solutions/12000005737');
-        await highlowSharedTestActions.confirmRedirectPageLoads(mobile, affiliateFaqUrl + '/support/solutions/12000005737');
+        await confirmRedirectPageLoads(mobile, affiliateFaqUrl + '/support/solutions/12000005737');
     } else {
         // If not in production, skip the FAQ checks
         console.log('Skipping FAQ checks - This is not the production environment.');

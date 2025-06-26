@@ -8,7 +8,7 @@ test('BEYON-54791 - Affiliates - Public Website - To Verify Users Can Access All
     await highlowSharedTestActions.launchDesktopHighLowPublicWebsite(page);
 
     //Get Affiliate Details For Future Use
-    const env = await page.url();
+    const env = testInfo.project.use.baseURL;
     const affiliateID = await highlowSharedTestActions.getTestAffiliateID(env);
     console.log("Affiliate Account In Use = " + affiliateID);
     

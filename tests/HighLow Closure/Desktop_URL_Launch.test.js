@@ -1,6 +1,6 @@
 import { test, expect } from '@playwright/test';
 
-import * as highlowSharedTestActions from '../sharedTestActions/highlowSharedTestActions.js';
+import { confirmRedirectPageLoads } from '../test_objects/confirm.redirect.page.loads.js';
 
 test('Desktop URL Launch', async ({ page, context }, testInfo) => {
 
@@ -112,7 +112,7 @@ test('Desktop URL Launch', async ({ page, context }, testInfo) => {
     for (const path of traderPaths) {
     await page.goto(path);
     await page.setViewportSize({ width: 1920, height: 1080 });
-    await highlowSharedTestActions.confirmRedirectPageLoads(page, env);
+    await confirmRedirectPageLoads(page, env);
     }
 
     // === Affiliate Pages ===
@@ -144,7 +144,7 @@ test('Desktop URL Launch', async ({ page, context }, testInfo) => {
     for (const path of affiliatePaths) {
     await page.goto(path);
     await page.setViewportSize({ width: 1920, height: 1080 });
-    await highlowSharedTestActions.confirmRedirectPageLoads(page, env);
+    await confirmRedirectPageLoads(page, env);
     }
 
     // === Visit Allowed Terms & Conditions URLs ===
@@ -172,9 +172,9 @@ test('Desktop URL Launch', async ({ page, context }, testInfo) => {
     //Check FAQs If Env Is Prod
     if (env.match(/highlow.com.*/)) {
         await page.goto(traderFaqUrl + '/support/solutions/articles/12000104263-highlow');
-        await highlowSharedTestActions.confirmRedirectPageLoads(page, traderFaqUrl + '/support/solutions/articles/12000104263-highlow');
+        await confirmRedirectPageLoads(page, traderFaqUrl + '/support/solutions/articles/12000104263-highlow');
         await page.goto(affiliateFaqUrl + '/support/solutions/12000005737');
-        await highlowSharedTestActions.confirmRedirectPageLoads(page, affiliateFaqUrl + '/support/solutions/12000005737');
+        await confirmRedirectPageLoads(page, affiliateFaqUrl + '/support/solutions/12000005737');
     } else {
         // If not in production, skip the FAQ checks
         console.log('Skipping FAQ checks - This is not the production environment.');
