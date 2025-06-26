@@ -85,6 +85,26 @@ test('CRM URL Launch', async ({ context }, testInfo) => {
     await expect(hlBackOfficeTab).toHaveURL(/home/);
     await expect(hlBackOfficeTab).toHaveTitle(/HLBO App/);
 
+    //Expand The Finance Menu
+    const crmBackOfficeFinanceLeftNavLink = hlBackOfficeTab.locator('//span[text()="FINANCE"]');
+    await crmBackOfficeFinanceLeftNavLink.click();
+
+    // Click Deposit List
+    const crmBackOfficeAllDepositsLink = hlBackOfficeTab.locator('//span[text()="All Deposits"]');
+    await crmBackOfficeAllDepositsLink.click();
+
+    // Confirm the screen has loaded
+    const crmAllDepositsScreenTitle = hlBackOfficeTab.locator('//h1[contains(text(), "Deposit List")]');
+    await expect(crmAllDepositsScreenTitle).toBeVisible();
+
+    // Click Withdrawals List
+    const crmBackOfficeAllWithdrawalsLink = hlBackOfficeTab.locator('//span[text()="All Withdrawals"]');
+    await crmBackOfficeAllWithdrawalsLink.click();
+
+    // Confirm the screen has loaded
+    const crmAllWithdrawalsScreenTitle = hlBackOfficeTab.locator('//h1[contains(text(), "All Withdrawals")]');
+    await expect(crmAllWithdrawalsScreenTitle).toBeVisible();
+
     //Close The HL Back Office Tab
     await hlBackOfficeTab.close();
     await crmTab.bringToFront();

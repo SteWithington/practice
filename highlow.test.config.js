@@ -30,6 +30,7 @@ export default defineConfig({
   reporter: [['html']],
   use: {
     /* Base URL to use in actions like `await page.goto('/')`. */
+    // baseURL: 'https://highlow.com',
     baseURL: 'https://stage.highlowmi.dev',
     screenshot: 'on',
     screen: { width: 1920, height: 1080 },
