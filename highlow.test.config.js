@@ -18,11 +18,9 @@ export default defineConfig({
   /* Fail the build on CI if you accidentally left test.only in the source code. */
   // forbidOnly: !!process.env.CI,
   /* Retry on CI only */
-  // retries: process.env.CI ? 2 : 0,
-  retries: 1,  // Number of times to retry a failed test
+  retries: process.env.CI ? 1 : 1,
   /* Opt out of parallel tests on CI. */
-  // workers: process.env.CI ? 1 : undefined,
-  workers: 3,
+  workers: process.env.CI ? 1 : 3,
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   timeout: 900000, // 15 mins per test
   expect: {timeout: 30000,}, // Increase timeout for all expect() assertions to n seconds
