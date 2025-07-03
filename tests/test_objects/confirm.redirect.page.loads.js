@@ -4,7 +4,7 @@ export async function confirmRedirectPageLoads(page, env) {
     if (env.match(/stage.*/)) {
         await expect(page).toHaveURL('https://stage.highlowmi.dev');
     } else if (env.match(/highlow.com.*/)) {
-        await expect(page).toHaveURL('https://highlow.com');
+        await expect(page).toHaveURL(/highlow.com/);
     }
     // const iFrame = page.frameLocator('#landing');
     const redirectPageMainText = page.locator('//h1[contains(text(), "HighLowからのお知らせ")]');

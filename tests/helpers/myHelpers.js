@@ -724,22 +724,3 @@ export async function confirmRedirectPageLoads(page, env) {
     await expect(redirectPageTermsConditionsLink).toBeVisible();
 }
 //--------------------------------------------------------------------------------------------------------------------------
-export async function clearLocalAndSessionStorageAndCookies(page) {    
-//Clear URL History To Stop Redirecting To The CRM Deposit List Page
-    await page.evaluate(() => {
-        sessionStorage.clear();
-        localStorage.clear();
-    });
-    const context = page.context();
-    await context.clearCookies();
-}
-//--------------------------------------------------------------------------------------------------------------------------
-export async function launchANewBrowserTab(page) {
-
-    //Launch a new page
-    const context = page.context();
-    const newPage = await context.newPage();
-
-    return newPage;
-}
-//--------------------------------------------------------------------------------------------------------------------------

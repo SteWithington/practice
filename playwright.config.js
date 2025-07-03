@@ -23,7 +23,7 @@ export default defineConfig({
   workers: process.env.CI ? 1 : 3,
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   timeout: 900000, // 15 mins per test
-  expect: {timeout: 30000,}, // Increase timeout for all expect() assertions to n seconds
+  expect: {timeout: 3000,}, // Increase timeout for all expect() assertions to n seconds
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
   reporter: [['html']],
   use: {

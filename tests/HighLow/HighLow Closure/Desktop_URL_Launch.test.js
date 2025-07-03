@@ -1,6 +1,6 @@
 import { test, expect } from '@playwright/test';
 
-import { confirmRedirectPageLoads } from '../test_objects/confirm.redirect.page.loads.js';
+import { confirmRedirectPageLoads } from '../../test_objects/confirm.redirect.page.loads.js';
 
 test('Desktop URL Launch', async ({ page, context }, testInfo) => {
 

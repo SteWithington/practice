@@ -1,10 +1,11 @@
 import { test, expect } from '@playwright/test';
 
-import { launchDesktopHighLowPublicWebsite } from '../test_objects/launch.highlow.desktop.public.website.js';
-import { launchHighLowCRM } from '../test_objects/launch.highlow.crm.js';
-import { crmAttemptLoginInvalidData } from '../test_objects/login.highlow.crm.invalid.data.js';
-import { loginHighLowCRMAdmin } from '../test_objects/login.highlow.crm.admin.js';
-import * as highlowSharedTestActions from '../sharedTestActions/highlowSharedTestActions.js';
+import { launchDesktopHighLowPublicWebsite } from '../../test_objects/launch.highlow.desktop.public.website.js';
+import { launchNewBrowserTab } from '../../test_objects/launch.new.browser.tab.js';
+import { launchHighLowCRM } from '../../test_objects/launch.highlow.crm.js';
+import { crmAttemptLoginInvalidData } from '../../test_objects/login.highlow.crm.invalid.data.js';
+import { clearLocalStorageAndCookies } from '../../test_objects/clear.local.storage.and.cookies.js';
+import { loginHighLowCRMAdmin } from '../../test_objects/login.highlow.crm.admin.js';
 
 test('CRM Login', async ({ page }) => {
 
@@ -13,7 +14,7 @@ test('CRM Login', async ({ page }) => {
     const baseURL = page.context()._options.baseURL;
 
     //Launch HighLow CRM
-    const crmTab =  await highlowSharedTestActions.launchANewBrowserTab(page)
+    const crmTab =  await launchNewBrowserTab(page);
     await launchHighLowCRM(crmTab, baseURL);
 
     //Attempt To Login Using Invalid data
@@ -31,7 +32,7 @@ test('CRM Login', async ({ page }) => {
     await expect(crmSignInBox).toBeVisible();
 
     //Clear URL History To Stop Redirecting To The CRM Deposit List Page
-    await highlowSharedTestActions.clearLocalAndSessionStorageAndCookies(crmTab);
+    await clearLocalStorageAndCookies(crmTab);
 
     //Log into HighLow CRM As An Admin User
     await loginHighLowCRMAdmin(crmTab);
